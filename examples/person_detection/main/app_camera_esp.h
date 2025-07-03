@@ -51,6 +51,28 @@ limitations under the License.
  */
 #define CAMERA_FRAME_SIZE FRAMESIZE_96X96
 
+#define CAMERA_MODULE_NAME "XIAO ESP32S3 Sense"
+
+#define CAMERA_PIN_PWDN   -1
+#define CAMERA_PIN_RESET  -1
+#define CAMERA_PIN_XCLK   10
+#define CAMERA_PIN_SIOD   40
+#define CAMERA_PIN_SIOC   39
+
+#define CAMERA_PIN_D7     48
+#define CAMERA_PIN_D6     11
+#define CAMERA_PIN_D5     12
+#define CAMERA_PIN_D4     14
+#define CAMERA_PIN_D3     16
+#define CAMERA_PIN_D2     18
+#define CAMERA_PIN_D1     17
+#define CAMERA_PIN_D0     15
+
+#define CAMERA_PIN_VSYNC  38
+#define CAMERA_PIN_HREF   47
+#define CAMERA_PIN_PCLK   13
+
+
 #if CONFIG_CAMERA_MODULE_WROVER_KIT
 #define CAMERA_MODULE_NAME "Wrover Kit"
 #define CAMERA_PIN_PWDN -1
@@ -112,26 +134,26 @@ limitations under the License.
 #define CAMERA_PIN_PCLK 33
 
 #elif CONFIG_CAMERA_MODULE_ESP_S3_EYE
-#define CAMERA_MODULE_NAME "ESP-S3-EYE"
-#define CAMERA_PIN_PWDN -1
-#define CAMERA_PIN_RESET -1
+// #define CAMERA_MODULE_NAME "ESP-S3-EYE"
+// #define CAMERA_PIN_PWDN -1
+// #define CAMERA_PIN_RESET -1
 
-#define CAMERA_PIN_VSYNC 6
-#define CAMERA_PIN_HREF 7
-#define CAMERA_PIN_PCLK 13
-#define CAMERA_PIN_XCLK 15
+// #define CAMERA_PIN_VSYNC 6
+// #define CAMERA_PIN_HREF 7
+// #define CAMERA_PIN_PCLK 13
+// #define CAMERA_PIN_XCLK 15
 
-#define CAMERA_PIN_SIOD 4
-#define CAMERA_PIN_SIOC 5
+// #define CAMERA_PIN_SIOD 4
+// #define CAMERA_PIN_SIOC 5
 
-#define CAMERA_PIN_D0 11
-#define CAMERA_PIN_D1 9
-#define CAMERA_PIN_D2 8
-#define CAMERA_PIN_D3 10
-#define CAMERA_PIN_D4 12
-#define CAMERA_PIN_D5 18
-#define CAMERA_PIN_D6 17
-#define CAMERA_PIN_D7 16
+// #define CAMERA_PIN_D0 11
+// #define CAMERA_PIN_D1 9
+// #define CAMERA_PIN_D2 8
+// #define CAMERA_PIN_D3 10
+// #define CAMERA_PIN_D4 12
+// #define CAMERA_PIN_D5 18
+// #define CAMERA_PIN_D6 17
+// #define CAMERA_PIN_D7 16
 
 #elif CONFIG_CAMERA_MODULE_ESP32_CAM_BOARD
 #define CAMERA_MODULE_NAME "ESP-DEVCAM"
