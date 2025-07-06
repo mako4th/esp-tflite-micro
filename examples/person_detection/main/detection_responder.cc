@@ -23,6 +23,7 @@ limitations under the License.
 #include "tensorflow/lite/micro/micro_log.h"
 #include "freertos/FreeRTOS.h"
 #include "driver/ledc.h"
+#include "servo_setup.h"
 
 #include "esp_main.h"
 #if DISPLAY_SUPPORT
@@ -59,39 +60,9 @@ static void create_gui(void)
   bsp_display_unlock();
 }
 #endif // DISPLAY_SUPPORT
-int count = 0;
-bool servomoving = false;
-void servoMove()
-{
-  ledc_timer_config_t ledc_timer = {
-      .speed_mode = LEDC_LOW_SPEED_MODE,
-      .duty_resolution = LEDC_TIMER_13_BIT,
-      .timer_num = LEDC_TIMER_0,
-      .freq_hz = 50,
-      .clk_cfg = LEDC_AUTO_CLK,
-      .deconfigure = false};
 
-  ledc_timer_config(&ledc_timer);
-
-  ledc_channel_config_t ledc_channel = {
-      .gpio_num = 2,
-      .speed_mode = LEDC_LOW_SPEED_MODE,
-      .channel = LEDC_CHANNEL_0,
-      .intr_type = LEDC_INTR_DISABLE,
-      .timer_sel = LEDC_TIMER_0,
-      .duty = 409,
-      .hpoint = 0};
-
-  ledc_channel_config(&ledc_channel);
-
-  int dutylist[4] = {409, 614, 818, 614};
-
-  ledc_set_duty(ledc_channel.speed_mode, ledc_channel.channel, dutylist[count % 4]);
-  ledc_update_duty(ledc_channel.speed_mode, ledc_channel.channel);
-  vTaskDelay(2000 / portTICK_PERIOD_MS);
-  ledc_stop(LEDC_LOW_SPEED_MODE, LEDC_CHANNEL_0, 0);
-}
-
+int count = 1;
+bool servo_moving = false;
 void RespondToDetection(float person_score, float no_person_score)
 {
   int person_score_int = (person_score) * 100 + 0.5;
@@ -118,14 +89,18 @@ void RespondToDetection(float person_score, float no_person_score)
 #endif // DISPLAY_SUPPORT
   MicroPrintf("person score:%d%%, no person score %d%%",
               person_score_int, 100 - person_score_int);
+
+  int targetList[4] = {409, 614, 818, 614};
+
   if (person_score_int > 85)
   {
-    if (servomoving == false)
+    if (servo_moving == false)
     {
-      servomoving = true;
+      servo_moving = true;
+      servo_moveto(targetList[count % 4]);
       count++;
-      servoMove();
-      servomoving = false;
+      vTaskDelay(2000 / portTICK_PERIOD_MS);
+      servo_moving = false;
     }
   }
 }
