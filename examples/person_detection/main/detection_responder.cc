@@ -90,16 +90,17 @@ void RespondToDetection(float person_score, float no_person_score)
   MicroPrintf("person score:%d%%, no person score %d%%",
               person_score_int, 100 - person_score_int);
 
-  int targetList[4] = {409, 614, 818, 614};
+  // int targetList[4] = {409, 614, 818, 614}; // center = 614
+  int targetList[4] = {409, 818, 409, 818}; // center = 614
 
-  if (person_score_int > 85)
+  if (person_score_int > 80)
   {
     if (servo_moving == false)
     {
       servo_moving = true;
       servo_moveto(targetList[count % 4]);
       count++;
-      vTaskDelay(2000 / portTICK_PERIOD_MS);
+      vTaskDelay(1000 / portTICK_PERIOD_MS);
       servo_moving = false;
     }
   }

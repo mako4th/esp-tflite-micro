@@ -1,9 +1,9 @@
 #include "driver/ledc.h"
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
-
 #include "esp_main.h"
 
+int currentDuty = 614;
 ledc_timer_config_t ledc_timer = {
     .speed_mode = LEDC_LOW_SPEED_MODE,
     .duty_resolution = LEDC_TIMER_13_BIT,
@@ -32,9 +32,23 @@ void servo_init()
 
 void servo_moveto(int moveto)
 {
-    ledc_set_duty(ledc_channel.speed_mode, ledc_channel.channel, moveto);
+    int delta = moveto - currentDuty;
+    int step = 10 * delta / abs(delta) ;
+
+    printf("current:%d moveto:%d step:%d\n",currentDuty,moveto,step);
+
+    for(int i = 0;i < abs(delta / step);i++){
+        currentDuty += step;
+    printf("current:%d moveto:%d step:%d\n",currentDuty,moveto,step);
+        
+        ledc_set_duty(ledc_channel.speed_mode, ledc_channel.channel, currentDuty);
     ledc_update_duty(ledc_channel.speed_mode, ledc_channel.channel);
-    // int target = targetList[count];
+    vTaskDelay(20 / portTICK_PERIOD_MS);
+
+    }
+    
+
+
     // while (true)
     // {
     //     if (target < nowWidth)
@@ -58,5 +72,5 @@ void servo_moveto(int moveto)
     // }
     // printf("target %d,now %d\n",target,nowWidth);
     // // ledc_stop(LEDC_LOW_SPEED_MODE, LEDC_CHANNEL_0, 0);
-    vTaskDelay(500 / portTICK_PERIOD_MS);
+    // vTaskDelay(1000 / portTICK_PERIOD_MS);
 }
