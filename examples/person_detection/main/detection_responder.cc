@@ -92,13 +92,16 @@ void RespondToDetection(float person_score, float no_person_score)
 
   // int targetList[4] = {409, 614, 818, 614}; // center = 614
   int targetList[4] = {409, 818, 409, 818}; // center = 614
-
-  if (person_score_int > 80)
+    int target2[4] = {700,500,818,409};
+  if (person_score_int > 0)
   {
     if (servo_moving == false)
     {
       servo_moving = true;
-      servo_moveto(targetList[count % 4]);
+      servo_moveto(targetList[count % 4],target2[count % 4]);
+
+      // servo_tiltto(targetList[count % 4]);
+      // servo_panto(targetList[count % 4]);
       count++;
       vTaskDelay(1000 / portTICK_PERIOD_MS);
       servo_moving = false;
